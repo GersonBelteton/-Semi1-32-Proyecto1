@@ -1,9 +1,11 @@
 const express = require('express')
 var bodyParser = require('body-parser');
 var cors = require('cors');
+const aws_keys = require('./creds');
+var aws = require('aws-sdk');
 const app = express()
 
-
+const s = new aws.S3(aws_keys.s3);
 
 
 //Body-Parser Config

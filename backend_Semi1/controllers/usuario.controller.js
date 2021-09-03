@@ -1,5 +1,10 @@
 var database = require("../config/database.config");
 
+const aws_keys = require('../creds');
+var aws = require('aws-sdk');
+const s3 = new aws.S3(aws_keys.s3);
+
+
 
 var UsuarioController = (function () {
     function UsuarioController() {
@@ -40,41 +45,81 @@ var UsuarioController = (function () {
         };
 
 
-        this.create = function(req, res){
-            var query = "call agregar_usuario(?,?,?,?);"
-            var body = {
-                nombre_usuario: req.body.nombre_usuario,
-                correo: req.body.correo,
-                contrasena:req.body.contrasena,
-                foto:req.body.foto
-            }
+        this.create = async function (req, res) {
 
-            database.query(query, [body.nombre_usuario, body.correo, body.contrasena, body.foto], function (err, data) {
+
+            var id = req.body.nombre_usuario +'foto';
+            var foto = req.body.foto;     //base64
+            //carpeta y nombre que quieran darle a la imagen
+
+            var nombrei = "fotos-usuario/" + id + ".jpg";
+
+            //se convierte la base64 a bytes
+            let buff = new Buffer.from(foto, 'base64');
+
+
+
+            const params = {
+                Bucket: "archivos-32-p1",
+                Key: nombrei,
+                Body: buff,
+                ContentType: "image",
+                ACL: 'public-read'
+            };
+
+            //const putResult = s3.putObject(params).promise();
+
+            var fotobd = ''
+            await s3.upload(params,  function (err, data) {
                 if (err) {
-                    res.status(400).json({
-                        estado: false,
-                        status: 400,
-                        error: err
-                    });
+                    console.log('Error uploading file:', err);
+
                 } else {
+                    console.log('Url del objetot:', data.Location);
+                    fotobd = data.Location
+                    console.log(fotobd+ 'fotodentro')
 
-                    console.log(data[0][0]._existe)
-                    if (data[0][0]._existe > 0) {
-                        res.json({
-                            estado: false,
-                            status: 400,
-                            mensaje: "El nombre de usuario o correo ya fue usado"
-                        });
 
-                    } else {
-                        res.json({
-                            estado: true,
-                            status: 200,
-                            mensaje: "El usuario se agrego con exito"
-                        });
+                    var query = "call agregar_usuario(?,?,?,?);"
+                    var body = {
+                        nombre_usuario: req.body.nombre_usuario,
+                        correo: req.body.correo,
+                        contrasena: req.body.contrasena,
+                        foto: fotobd
                     }
+        
+                    database.query(query, [body.nombre_usuario, body.correo, body.contrasena, body.foto], function (err, data) {
+                        if (err) {
+                            res.status(400).json({
+                                estado: false,
+                                status: 400,
+                                error: err
+                            });
+                        } else {
+        
+                            console.log(data[0][0]._existe)
+                            if (data[0][0]._existe > 0) {
+                                res.json({
+                                    estado: false,
+                                    status: 400,
+                                    mensaje: "El nombre de usuario o correo ya fue usado"
+                                });
+        
+                            } else {
+                                res.json({
+                                    estado: true,
+                                    status: 200,
+                                    mensaje: "El usuario se agrego con exito"
+                                });
+                            }
+                        }
+                    });
                 }
             });
+
+            console.log(fotobd + ' fotofuera')
+
+
         }
 
 
