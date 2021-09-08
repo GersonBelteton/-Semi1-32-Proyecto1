@@ -8,6 +8,7 @@ import { SignupComponent } from './components/login/signup/signup.component';
 import { HomeModule } from './components/home/home.module';
 import { SharedModule } from './components/shared/shared.module';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { CommonModule } from '@angular/common';
     BrowserModule,
     AppRoutingModule,
     HomeModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
