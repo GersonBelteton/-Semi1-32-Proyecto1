@@ -1,29 +1,83 @@
 <div class="row">
     <div class="col">
-        <div class="card" style="width: 18rem;">
-            <img src="https://ui-avatars.com/api/?name=User+Anonimo" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Usuario Anonimo</h5>
-                <p class="card-text">Realice cambios en sus archivos</p>
-                <div class="d-grid mx-auto">
-                    <a class="btn btn-outline-success">Agregar Nuevo</a>
+        <div class="container" style="padding-top: 1rem;">
+            <div class="card">
+                <img src="https://ui-avatars.com/api/?name=User+Anonimo" class="card-img-top" alt="...">
+                
+                <div class="card-body">
+                    <h5 class="card-title">Usuario Anonimo</h5>
+                    <p class="card-text">Realice cambios en sus archivos</p>
+                    <div class="d-grid mx-auto">
+                        <a class="btn btn-outline-success">Agregar Nuevo</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-8">
+    <div class="col-9">
+        <div class="container">
+            <div class="row">
+                <div class="card">
+                    <h5 class="card-header">Públicos</h5>
+                    <div class="card-body">
+                        <div class="row row-cols-1 row-cols-md-4 g-4">
+                            <div class="col">
+                                <div class="card">
+                                    <img src="../../../../assets/img/file.jpg"
+                                        style="width: 8rem; height: 8rem; align-self: center;" class="card-img-top">
+                                    <div class="card-img-overlay text-end" >
+                                        <div class="dropdown">
+                                            <a class="btn btn-outline-secondary " id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" ><i class="fas fa-ellipsis-v"></i></a>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                              <li><button class="dropdown-item" >Hacer Privado</button></li>
+                                              <li><a class="dropdown-item" href="#">Editar</a></li>
+                                              <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                                            </ul>
+                                          </div>                                        
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text" style="font-size:12px; text-overflow: ellipsis;">
+                                            NombreArchivo.jpg
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="card">
+                    <h5 class="card-header">Privados</h5>
+                    <div class="card-body">
+                        <div class="row row-cols-1 row-cols-md-4 g-4">
+                            <div class="col">
+                                <div class="card">
+                                    <img src="../../../../assets/img/file.jpg"
+                                        style="width: 8rem; height: 8rem; align-self: center;" class="card-img-top">
+                                        <div class="card-img-overlay text-end" >
+                                            <div class="dropdown">
+                                                <a class="btn btn-outline-secondary " id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" ><i class="fas fa-ellipsis-v"></i></a>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                  <li><button class="dropdown-item" >Hacer Público</button></li>
+                                                  <li><a class="dropdown-item" href="#">Editar</a></li>
+                                                  <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                                                </ul>
+                                              </div>                                        
+                                        </div>
+                                        <div class="card-body">
+                                        <p class="card-text" style="font-size:12px; text-overflow: ellipsis;">
+                                            NombreArchivo.jpg
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div class="card">
-            <h5 class="card-header">Públicos</h5>
-            <div class="card-body">
-                
-        <div class="card" style="width: 10rem;">
-            <img src="../../../../assets/img/file.jpg" class="card-img-top">
-            <div class="card-body">
-              <p class="card-text" style="font-size:12px;">NombreArchivo.jpg</p>
-            </div>
-          </div>
-            </div>
-          </div>
     </div>
 </div>
