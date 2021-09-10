@@ -22,6 +22,56 @@ var UsuarioController = (function () {
             });
         };
 
+        this.get_one = function (req, res) {
+
+            var query = "SELECT id_usuario, nombre_usuario, correo,contrasena, foto FROM USUARIO WHERE id_usuario = ?"
+            var id = req.params.id
+            database.query(query, [id], function (err, data) {
+                if (err) {
+                    res.json({
+                        estado: false,
+                        status: 400,
+                        error: err
+                    });
+                } else {
+                    res.json(data[0]);
+                }
+            });
+        };
+
+        this.get_one_by_name = function (req, res) {
+
+            var query = "SELECT id_usuario, nombre_usuario, correo,contrasena, foto FROM USUARIO WHERE nombre_usuario = ?"
+            var id = req.params.id
+            database.query(query, [id], function (err, data) {
+                if (err) {
+                    res.json({
+                        estado: false,
+                        status: 400,
+                        error: err
+                    });
+                } else {
+                    res.json(data[0]);
+                }
+            });
+        };
+
+        this.get_count_archivos_publicos = function (req, res) {
+
+            var query = "select count(*) as archivos_publicos from usuario inner join archivo on usuario.id_usuario = archivo.id_usuario where usuario.id_usuario = ? and archivo.tipo = \"publico\""
+            var id = req.params.id
+            database.query(query, [id], function (err, data) {
+                if (err) {
+                    res.json({
+                        estado: false,
+                        status: 400,
+                        error: err
+                    });
+                } else {
+                    res.json(data[0]);
+                }
+            });
+        };
 
         this.auth = function (req, res) {
             var query = "SELECT * FROM Usuario  WHERE nombre_usuario = ? AND contrasena = ?"
@@ -48,7 +98,7 @@ var UsuarioController = (function () {
         this.create = async function (req, res) {
 
 
-            var id = req.body.nombre_usuario +'foto';
+            var id = req.body.nombre_usuario + 'foto';
             var foto = req.body.foto;     //base64
             //carpeta y nombre que quieran darle a la imagen
 
@@ -70,14 +120,14 @@ var UsuarioController = (function () {
             //const putResult = s3.putObject(params).promise();
 
             var fotobd = ''
-            await s3.upload(params,  function (err, data) {
+            await s3.upload(params, function (err, data) {
                 if (err) {
                     console.log('Error uploading file:', err);
 
                 } else {
                     console.log('Url del objetot:', data.Location);
                     fotobd = data.Location
-                    console.log(fotobd+ 'fotodentro')
+                    console.log(fotobd + 'fotodentro')
 
 
                     var query = "call agregar_usuario(?,?,?,?);"
@@ -87,7 +137,7 @@ var UsuarioController = (function () {
                         contrasena: req.body.contrasena,
                         foto: fotobd
                     }
-        
+
                     database.query(query, [body.nombre_usuario, body.correo, body.contrasena, body.foto], function (err, data) {
                         if (err) {
                             res.status(400).json({
@@ -96,7 +146,7 @@ var UsuarioController = (function () {
                                 error: err
                             });
                         } else {
-        
+
                             console.log(data[0][0]._existe)
                             if (data[0][0]._existe > 0) {
                                 res.json({
@@ -104,7 +154,7 @@ var UsuarioController = (function () {
                                     status: 400,
                                     mensaje: "El nombre de usuario o correo ya fue usado"
                                 });
-        
+
                             } else {
                                 res.json({
                                     estado: true,
@@ -121,6 +171,40 @@ var UsuarioController = (function () {
 
 
         }
+
+
+        this.agregar_amigo = function (req, res) {
+
+
+            var query = "insert into Amigo (id_usuario1, id_usuario2) values(?,?)"
+            var body = {
+                id1: req.body.id_usuario1,
+                id2: req.body.id_usuario2,
+            }
+
+            database.query(query, [body.id1, body.id2], function (err, data) {
+                if (err) {
+                    res.status(400).json({
+                        estado: false,
+                        status: 400,
+                        error: err
+                    });
+                } else {
+
+
+                    res.json({
+                        estado: true,
+                        status: 200,
+                        mensaje: "El amigo se agrego con exito"
+                    });
+
+                }
+            });
+
+
+        }
+
+
 
 
     }
