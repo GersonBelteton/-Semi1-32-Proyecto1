@@ -1,3 +1,3 @@
 export const path:any = { 
-    path:"localhost:3000"
+    path:"htt://localhost:3000"
 }

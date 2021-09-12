@@ -5,10 +5,12 @@ import { path } from 'src/app/config.module';
   providedIn: 'root'
 })
 export class UsuarioService {
+  private basepath:string = path.path;
 
   constructor(private http: HttpClient) { }
 
   private async request(method: string, url: string, data?: any) {
+    
     const result = this.http.request(method, url, {
       body: data,
       responseType: 'json',
@@ -21,11 +23,11 @@ export class UsuarioService {
   }
 
   crearUsuario(usuario:any) {
-    return this.request('POST', `${path}/usuario/create`, usuario);
+    return this.request('POST', `${this.basepath}/usuario/create`, usuario);
   }
 
   authUsuario(usuario:any) {
-    return this.request('POST', `${path}/usuario/auth`, usuario);
+    return this.request('POST', `${this.basepath}/usuario/auth`, usuario);
   }
 
 }
