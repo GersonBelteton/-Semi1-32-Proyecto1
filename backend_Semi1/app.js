@@ -28,7 +28,9 @@ app.use(function(req, res, next) {
 });
 
 var usuario = require('./routes/usuario.routes');
+var archivo = require('./routes/archivo.routes');
 app.use("/", usuario);
+app.use("/", archivo);
 
 
 
