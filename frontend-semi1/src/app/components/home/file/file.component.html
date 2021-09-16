@@ -1,14 +1,16 @@
 <div class="row">
-    <div class="col">
+    <div class="col-3">
         <div class="container" style="padding-top: 1rem;">
             <div class="card">
-                <img src="https://ui-avatars.com/api/?name=User+Anonimo" class="card-img-top" alt="...">
-                
+                <img src="{{userimg}}" class="card-img-top" alt="...">
+
                 <div class="card-body">
-                    <h5 class="card-title">Usuario Anonimo</h5>
+                    <h5 class="card-title">{{username}}</h5>
+                    <h6 class="card-title">{{usermail}}</h6>
                     <p class="card-text">Realice cambios en sus archivos</p>
                     <div class="d-grid mx-auto">
-                        <a class="btn btn-outline-success">Agregar Nuevo</a>
+                        <button data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            class="btn btn-outline-success">Agregar Nuevo</button>
                     </div>
                 </div>
             </div>
@@ -16,28 +18,36 @@
     </div>
     <div class="col-9">
         <div class="container">
+            <div class="alert alert-success" *ngIf="alert" role="alert">
+                {{message}}
+            </div>
+            <div class="alert alert-danger" *ngIf="erroral" role="alert">
+                {{message}}
+            </div>
             <div class="row">
                 <div class="card">
                     <h5 class="card-header">Públicos</h5>
                     <div class="card-body">
                         <div class="row row-cols-1 row-cols-md-4 g-4">
-                            <div class="col">
-                                <div class="card">
-                                    <img src="../../../../assets/img/file.jpg"
+                            <div class="col" *ngFor="let p of publicFiles">
+                                <div class="card" >
+                                    <img src="../../../../assets/img/file2.png"
                                         style="width: 8rem; height: 8rem; align-self: center;" class="card-img-top">
-                                    <div class="card-img-overlay text-end" >
+                                    <div class="card-img-overlay text-end">
                                         <div class="dropdown">
-                                            <a class="btn btn-outline-secondary " id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" ><i class="fas fa-ellipsis-v"></i></a>
+                                            <a class="btn btn-outline-secondary " id="dropdownMenuButton1"
+                                                data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                    class="fas fa-ellipsis-v"></i></a>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                              <li><button class="dropdown-item" >Hacer Privado</button></li>
-                                              <li><a class="dropdown-item" href="#">Editar</a></li>
-                                              <li><a class="dropdown-item" href="#">Eliminar</a></li>
+                                                <li><button class="dropdown-item">Hacer Privado</button></li>
+                                                <li><a class="dropdown-item" href="#">Editar</a></li>
+                                                <li><button class="dropdown-item" (click)="eliminar(p.id_archivo)">Eliminar</button></li>
                                             </ul>
-                                          </div>                                        
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text" style="font-size:12px; text-overflow: ellipsis;">
-                                            NombreArchivo.jpg
+                                            {{p.nombre_archivo}}
                                         </p>
                                     </div>
                                 </div>
@@ -52,23 +62,25 @@
                     <h5 class="card-header">Privados</h5>
                     <div class="card-body">
                         <div class="row row-cols-1 row-cols-md-4 g-4">
-                            <div class="col">
-                                <div class="card">
-                                    <img src="../../../../assets/img/file.jpg"
+                            <div class="col" *ngFor="let p of prvateFiles">
+                                <div class="card" >
+                                    <img src="../../../../assets/img/file2.png"
                                         style="width: 8rem; height: 8rem; align-self: center;" class="card-img-top">
-                                        <div class="card-img-overlay text-end" >
-                                            <div class="dropdown">
-                                                <a class="btn btn-outline-secondary " id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" ><i class="fas fa-ellipsis-v"></i></a>
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                  <li><button class="dropdown-item" >Hacer Público</button></li>
-                                                  <li><a class="dropdown-item" href="#">Editar</a></li>
-                                                  <li><a class="dropdown-item" href="#">Eliminar</a></li>
-                                                </ul>
-                                              </div>                                        
+                                    <div class="card-img-overlay text-end">
+                                        <div class="dropdown">
+                                            <a class="btn btn-outline-secondary " id="dropdownMenuButton1"
+                                                data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                    class="fas fa-ellipsis-v"></i></a>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li><button class="dropdown-item">Hacer Público</button></li>
+                                                <li><a class="dropdown-item" href="#">Editar</a></li>
+                                                <li><button class="dropdown-item" (click)="eliminar(p.id_archivo)">Eliminar</button></li>
+                                            </ul>
                                         </div>
-                                        <div class="card-body">
+                                    </div>
+                                    <div class="card-body">
                                         <p class="card-text" style="font-size:12px; text-overflow: ellipsis;">
-                                            NombreArchivo.jpg
+                                            {{p.nombre_archivo}}
                                         </p>
                                     </div>
                                 </div>
@@ -79,5 +91,50 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" *ngIf="erroral" role="alert">
+                    {{message}}
+                </div>
+                <form [formGroup]="dataForm">
+                    <div class="mb-3">
+                        <label for="correo" class="form-label">Nombre</label>
+                        <input type="email" class="form-control" id="correo" formControlName="nombre">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                            formControlName="publico">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Publico
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="foto" class="form-label">Archivo</label>
+                        <input type="file" (change)="handleUpload($event)" class="form-control" id="foto"
+                            accept="image/jpeg, application/pdf, text/plain">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña para autorizar</label>
+                        <input type="password" class="form-control" id="password"
+                            formControlName="passc" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" (click)="guardar()" class="btn btn-primary" data-bs-dismiss="modal">Save
+                    changes</button>
+            </div>
+        </div>
     </div>
 </div>

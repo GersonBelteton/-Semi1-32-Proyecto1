@@ -7,6 +7,8 @@ import { FileComponent } from './file/file.component';
 import { SharedModule } from '../shared/shared.module';
 import { FriendComponent } from './friend/friend.component';
 import { FindfriendComponent } from './findfriend/findfriend.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { FindfriendComponent } from './findfriend/findfriend.component';
   imports: [
     CommonModule,
     HomeRoutingModule,
-    SharedModule
+    SharedModule,    
+    ReactiveFormsModule,
+    HttpClientModule
   ]
 })
 export class HomeModule { }

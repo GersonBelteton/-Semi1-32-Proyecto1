@@ -14,22 +14,25 @@ export class SignupComponent implements OnInit {
   dataForm = this.fb.group({
     correo: [''],
     nombre: [''],
-    pass: ['']
+    pass: [''],
+    passc: ['']
   })
 
   alert: boolean = false;
-  message:string ="";
+  erroral: boolean = false;
+  message: string = "";
 
   profile: string | undefined = "";
 
   constructor(
-    private fb: FormBuilder, 
-    private ususarioService: UsuarioService,
-    private router:Router) {
+    private fb: FormBuilder,
+    private usuarioService: UsuarioService,
+    private router: Router) {
     this.dataForm = this.fb.group({
       correo: [''],
       nombre: [''],
-      pass: ['']
+      pass: [''],
+      passc: ['']
     })
   }
 
@@ -37,25 +40,47 @@ export class SignupComponent implements OnInit {
   }
 
   crear() {
-    //TODO send data to user service
-    //console.log(this.dataForm.value) 
     const data = this.dataForm.value;
     const user = {
       nombre_usuario: data.nombre,
       foto: this.profile,
       correo: data.correo,
-      contrasena: CryptoJS.AES.encrypt(data.pass, 'semi1g32').toString()
+      contrasena: this.usuarioService.encrypt(data.pass)
     }
-    console.log(user);
-    this.ususarioService.crearUsuario(user).then((res: any) => {
-      if (res.estado) {
-        this.alert = true;
-        this.message = res.mensaje
-        setTimeout(()=>{this.router.navigate(['login'])}, 5000);
-      }else{
-        
+    if (data.passc == data.pass && this.profile != "") {
+      this.usuarioService.crearUsuario(user).then((res: any) => {
+        if (res.estado) {
+          this.alert = true;
+          this.message = res.mensaje;
+          this.dataForm = this.fb.group({
+            correo: [''],
+            nombre: [''],
+            pass: [''],
+            passc: ['']
+          });
+          setTimeout(() => {
+            this.router.navigate(['login']);
+          }, 3000);
+        } else {
+          this.erroral = true;
+          this.message = res.mensaje
+          setTimeout(() => {
+            this.erroral = false;
+          }, 3000);
+        }
+      });
+    } else {
+      this.erroral = true;
+      if (this.profile == "") {
+        this.message = "Sleccione una Fotografía";
+      } else {
+        this.message = "Contraseña no coincide";
       }
-    })
+      setTimeout(() => {
+        this.erroral = false;
+      }, 3000);
+    }
+
   }
 
   handleUpload(event: any) {
@@ -64,7 +89,9 @@ export class SignupComponent implements OnInit {
     reader.readAsDataURL(file);
     reader.onload = () => {
       //TODO save the base64 data in local
-      this.profile = reader.result?.toString();
+      var filestring = reader.result?.toString();
+      this.profile = filestring?.split(',')[1];
+      //console.log(this.profile);
     };
   }
 }
