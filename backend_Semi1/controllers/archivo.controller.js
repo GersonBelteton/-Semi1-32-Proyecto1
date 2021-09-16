@@ -77,24 +77,24 @@ var ArchivoController = (function () {
 
 
         this.get_archivos_amigos = function (req, res) {
-            var query = "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario from archivo " +
-                "inner join usuario as u1 " +
-                "on u1.id_usuario = archivo.id_usuario " +
-                "inner join amigo " +
-                "on amigo.id_usuario1 = u1.id_usuario " +
-                "inner join usuario as u2 " +
-                "on amigo.id_usuario2 = u2.id_usuario " +
-                "where archivo.tipo = 'publico' " +
+            var query = "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario from Archivo " +
+                "inner join Usuario as u1 " +
+                "on u1.id_usuario = Archivo.id_usuario " +
+                "inner join Amigo " +
+                "on Amigo.id_usuario1 = u1.id_usuario " +
+                "inner join Usuario as u2 " +
+                "on Amigo.id_usuario2 = u2.id_usuario " +
+                "where Archivo.tipo = 'publico' " +
                 "and u2.id_usuario =? ) " +
                 "UNION " +
-                "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario from archivo " +
-                "inner join usuario as u1 " +
-                "on u1.id_usuario = archivo.id_usuario " +
-                "inner join amigo " +
-                "on amigo.id_usuario2 = u1.id_usuario " +
-                "inner join usuario as u2 " +
-                "on amigo.id_usuario1 = u2.id_usuario " +
-                "where archivo.tipo = 'publico' " +
+                "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario from Archivo " +
+                "inner join Usuario as u1 " +
+                "on u1.id_usuario = Archivo.id_usuario " +
+                "inner join Amigo " +
+                "on Amigo.id_usuario2 = u1.id_usuario " +
+                "inner join Usuario as u2 " +
+                "on Amigo.id_usuario1 = u2.id_usuario " +
+                "where Archivo.tipo = 'publico' " +
                 "and u2.id_usuario =?) "
             var id = req.params.id
             database.query(query, [id, id], function (err, data) {
@@ -112,25 +112,25 @@ var ArchivoController = (function () {
 
 
         this.get_archivos_amigos_by_name = function (req, res) {
-            var query = "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario from archivo " +
-                "inner join usuario as u1 " +
-                "on u1.id_usuario = archivo.id_usuario " +
-                "inner join amigo " +
-                "on amigo.id_usuario1 = u1.id_usuario " +
-                "inner join usuario as u2 " +
-                "on amigo.id_usuario2 = u2.id_usuario " +
-                "where archivo.tipo = 'publico' " +
-                "and u2.id_usuario =? and archivo.nombre_archivo = ? ) " +
+            var query = "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario from Archivo " +
+                "inner join Usuario as u1 " +
+                "on u1.id_usuario = Archivo.id_usuario " +
+                "inner join Amigo " +
+                "on Amigo.id_usuario1 = u1.id_usuario " +
+                "inner join Usuario as u2 " +
+                "on Amigo.id_usuario2 = u2.id_usuario " +
+                "where Archivo.tipo = 'publico' " +
+                "and u2.id_usuario =? and Archivo.nombre_archivo = ? ) " +
                 "UNION " +
-                "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario from archivo " +
-                "inner join usuario as u1 " +
-                "on u1.id_usuario = archivo.id_usuario " +
-                "inner join amigo " +
-                "on amigo.id_usuario2 = u1.id_usuario " +
-                "inner join usuario as u2 " +
-                "on amigo.id_usuario1 = u2.id_usuario " +
-                "where archivo.tipo = 'publico' " +
-                "and u2.id_usuario =? and archivo.nombre_archivo = ?) "
+                "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario from Archivo " +
+                "inner join Usuario as u1 " +
+                "on u1.id_usuario = Archivo.id_usuario " +
+                "inner join Amigo " +
+                "on Amigo.id_usuario2 = u1.id_usuario " +
+                "inner join Usuario as u2 " +
+                "on Amigo.id_usuario1 = u2.id_usuario " +
+                "where Archivo.tipo = 'publico' " +
+                "and u2.id_usuario =? and Archivo.nombre_archivo = ?) "
             var id = req.params.id
             var name = req.params.name
             database.query(query, [id,name,id,name], function (err, data) {

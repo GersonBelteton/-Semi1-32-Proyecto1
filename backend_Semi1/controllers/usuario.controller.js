@@ -11,7 +11,7 @@ var UsuarioController = (function () {
 
         this.get_all = function (req, res) {
 
-            var query = "SELECT id_usuario, nombre_usuario, correo,contrasena, foto FROM USUARIO "
+            var query = "SELECT id_usuario, nombre_usuario, correo,contrasena, foto FROM Usuario "
 
             database.query(query, function (err, data) {
                 if (err) {
@@ -24,7 +24,7 @@ var UsuarioController = (function () {
 
         this.get_one = function (req, res) {
 
-            var query = "SELECT id_usuario, nombre_usuario, correo,contrasena, foto FROM USUARIO WHERE id_usuario = ?"
+            var query = "SELECT id_usuario, nombre_usuario, correo,contrasena, foto FROM Usuario WHERE id_usuario = ?"
             var id = req.params.id
             database.query(query, [id], function (err, data) {
                 if (err) {
@@ -41,7 +41,7 @@ var UsuarioController = (function () {
 
         this.get_one_by_name = function (req, res) {
 
-            var query = "SELECT id_usuario, nombre_usuario, correo,contrasena, foto FROM USUARIO WHERE nombre_usuario = ?"
+            var query = "SELECT id_usuario, nombre_usuario, correo,contrasena, foto FROM Usuario WHERE nombre_usuario = ?"
             var id = req.params.id
             database.query(query, [id], function (err, data) {
                 if (err) {
@@ -58,7 +58,7 @@ var UsuarioController = (function () {
 
         this.get_count_archivos_publicos = function (req, res) {
 
-            var query = "select count(*) as archivos_publicos from usuario inner join archivo on usuario.id_usuario = archivo.id_usuario where usuario.id_usuario = ? and archivo.tipo = \"publico\""
+            var query = "select count(*) as archivos_publicos from Usuario inner join Archivo on Usuario.id_usuario = Archivo.id_usuario where Usuario.id_usuario = ? and Archivo.tipo = \"publico\""
             var id = req.params.id
             database.query(query, [id], function (err, data) {
                 if (err) {
