@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
       contrasena: this.usuarioService.encrypt(data.pass)
     }
     this.usuarioService.authUsuario(user).then((res: any) => {
-      //console.log(res);
+      console.log(res);
       if (res.estado) {
         this.alert = true;
         this.message = res.mensaje

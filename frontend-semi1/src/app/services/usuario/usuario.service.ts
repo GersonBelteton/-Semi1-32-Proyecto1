@@ -44,4 +44,13 @@ export class UsuarioService {
     return enc.toString(); 
   }
 
+
+  getUsuarios(id_usuario:any) {
+    return this.request('GET', `${this.basepath}/usuario/get_all`);
+  }
+
+
+  agregarAmigo(usuario:any) {
+    return this.request('POST', `${this.basepath}/usuario/agregar_amigo`, usuario);
+  }
 }

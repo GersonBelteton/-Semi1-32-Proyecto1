@@ -1,18 +1,24 @@
-
 <div class="container">
     <h1>Agregar Amigos</h1>
-<hr>
+    <hr>
+    <div class="alert alert-success" *ngIf="alert" role="alert">
+        {{message}}
+    </div>
+    <div class="alert alert-danger" *ngIf="erroral" role="alert">
+        {{message}}
+    </div>
     <div class="row row-cols-1 row-cols-md-4 g-4">
-        <div class="col">
+        <div class="col" *ngFor="let u of usuarios">
             <div class="card">
-                <img src="../../../../assets/img/file.jpg"
-                    style="width: 8rem; height: 8rem; align-self: center;" class="card-img-top">
+                <img src="{{u.foto}}" style="width: 10rem; height: 12rem; align-self: center;" class="card-img-top">
                 <div class="card-body">
+                    <h6>{{u.nombre_usuario}}</h6>
+                    <p>{{u.correo}}</p>
                     <p class="card-text" style="font-size:12px; text-overflow: ellipsis;">
                         50 archivos públicos
                     </p>
                     <div class="d-grid mx-auto">
-                        <a class="btn btn-outline-success">Agregar</a>
+                        <button (click)="agregarAmigo(u.id_usuario)" class="btn btn-outline-success">Agregar</button>
                     </div>
                 </div>
             </div>
