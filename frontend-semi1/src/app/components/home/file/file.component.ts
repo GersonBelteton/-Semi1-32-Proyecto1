@@ -26,6 +26,7 @@ export class FileComponent implements OnInit {
   statusInsert: boolean = true;
   extension: string = "";
   currrentId: any;
+  tittle:string = "";
 
   dataForm = this.fb.group({
     nombre: [''],
@@ -130,6 +131,7 @@ export class FileComponent implements OnInit {
     this.statusInsert = false;
     this.statusEdit = false;
     this.currrentId = id_archivo;
+    this.tittle = "Eliminar Archivo";
   }
 
   agregaraction(){
@@ -137,12 +139,14 @@ export class FileComponent implements OnInit {
     this.statusEdit =false;
     this.statusInsert = true;
     this.currrentId = null;
+    this.tittle = "Agregar Archivo";
   }
 
   editaraction(archivo:any){
     this.statusDelete = false;
     this.statusEdit = true;
     this.statusInsert = false;
+    this.tittle = "Editar Archivo";
     this.currrentId = archivo.id_archivo;
     this.dataForm = this.fb.group({
       nombre: [archivo.nombre_archivo.split('.')[0]],
