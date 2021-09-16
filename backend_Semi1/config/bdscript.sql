@@ -29,11 +29,10 @@ create table Amigo(
     ON DELETE CASCADE ON UPDATE CASCADE
     
 );
-delete from usuario where id_usuario >0;
-SELECT * FROM USUARIO;
-INSERT INTO Usuario (nombre_usuario, correo, contrasena, foto) VALUES ("Gerson123", "gerson@gmail.com", "123", "sdlfksjdflj");
 
-call agregar_usuario("Gerson1883","gerslmlon@gmail.com","123","sdfsdf");
+
+
+
 
 DELIMITER $$
 create procedure agregar_usuario 
@@ -49,4 +48,18 @@ begin
     
 end;
 $$
+
+DELIMITER $$
+CREATE function contar_archivos (id_u int, tipo varchar(10)) 
+RETURNS integer
+BEGIN
+    RETURN (select count(*) as archivos_publicos 
+	from Usuario inner join Archivo 
+	on Usuario.id_usuario = Archivo.id_usuario 
+	where Usuario.id_usuario = id_u and Archivo.tipo = tipo);
+END
+$$
+
+
+
 

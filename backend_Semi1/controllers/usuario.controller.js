@@ -39,6 +39,37 @@ var UsuarioController = (function () {
             });
         };
 
+        this.get_no_amigos = function (req, res) {
+
+            var query = "select id_usuario, nombre_usuario, correo, contrasena, foto, contar_archivos(id_usuario, 'publico')  "+
+            "as archivos_publicos "+
+            "from Usuario "+
+            "where Usuario.id_usuario not in ( "+
+            "select u2.id_usuario from Usuario u1 inner join Amigo on u1.id_usuario = Amigo.id_usuario1 "+
+            "inner join Usuario u2 on Amigo.id_usuario2 = u2.id_usuario "+
+            "where u1.id_usuario = ? "+
+            "union "+
+            "select u2.id_usuario from Usuario u1 inner join Amigo on u1.id_usuario = Amigo.id_usuario2 "+
+            "inner join Usuario u2 on Amigo.id_usuario1 = u2.id_usuario "+
+            "where u1.id_usuario = ?) "+
+            "and Usuario.id_usuario != ?;"
+
+
+
+            var id = req.params.id
+            database.query(query, [id,id,id], function (err, data) {
+                if (err) {
+                    res.json({
+                        estado: false,
+                        status: 400,
+                        error: err
+                    });
+                } else {
+                    res.json(data);
+                }
+            });
+        };
+
         this.get_one_by_name = function (req, res) {
 
             var query = "SELECT id_usuario, nombre_usuario, correo,contrasena, foto FROM Usuario WHERE nombre_usuario = ?"

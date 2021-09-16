@@ -9,5 +9,5 @@ usuario.post('/usuario/agregar_amigo', controller.default.getInstance().agregar_
 usuario.get('/usuario/get_one/:id', controller.default.getInstance().get_one);
 usuario.get('/usuario/get_one_by_name/:id', controller.default.getInstance().get_one_by_name);
 usuario.get('/usuario/get_count_archivos_publicos/:id', controller.default.getInstance().get_count_archivos_publicos);
-
+usuario.get('/usuario/get_no_amigos/:id', controller.default.getInstance().get_no_amigos);
 module.exports = usuario;
