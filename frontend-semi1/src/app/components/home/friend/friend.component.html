@@ -1,19 +1,34 @@
-
 <div class="container">
-    <h1>Amigos</h1>
-<hr>
+    <h1>Archivos Públicos</h1>
+    <hr>
+    <div class="row">
+        <form [formGroup]="dataForm" >
+            <div class="input-group mb-3">            
+                <input type="text" class="form-control" placeholder="Nombre del Archivo" aria-label="Username" aria-describedby="basic-addon1" formControlName="nombre">
+                <button  *ngIf="!buscarstate" class="input-group-text" id="basic-addon1" class="btn btn-outline-success" (click)="buscar()" ><i class="fas fa-search"></i></button>
+                <button  *ngIf="buscarstate" class="input-group-text" id="basic-addon1" class="btn btn-outline-success"  (click)="clear()"><i class="far fa-window-close"></i></button>
+            </div>
+        </form>
+    </div>
     <div class="row row-cols-1 row-cols-md-4 g-4">
-        <div class="col">
-            <div class="card">
-                <img src="../../../../assets/img/file.jpg"
+        <div class="col" *ngFor="let p of usuarios">
+            <div class="card" >
+                <img src="../../../../assets/img/file2.png"
                     style="width: 8rem; height: 8rem; align-self: center;" class="card-img-top">
+                <div class="card-img-overlay text-end">
+                    <div class="dropdown">
+                        <a class="btn btn-outline-secondary " id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false"><i
+                                class="fas fa-ellipsis-v"></i></a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a  href="{{p.ruta_archivo}}" target="_blank" class="dropdown-item" >Ver</a></li>                            
+                        </ul>
+                    </div>
+                </div>
                 <div class="card-body">
                     <p class="card-text" style="font-size:12px; text-overflow: ellipsis;">
-                        50 archivos públicos
+                        {{p.nombre_archivo}}
                     </p>
-                    <div class="d-grid mx-auto">
-                        <a class="btn btn-outline-success">Agregar</a>
-                    </div>
                 </div>
             </div>
         </div>

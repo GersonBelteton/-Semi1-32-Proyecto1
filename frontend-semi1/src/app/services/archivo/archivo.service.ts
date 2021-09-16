@@ -42,4 +42,12 @@ export class ArchivoService {
     return this.request('PUT',`${this.basepath}/archivo/update_name_type`, archivo);
   }
 
+
+  getArchivosPublicos(id_usuario:any){
+    return this.request('GET', `${this.basepath}/archivo/get_archivos_amigos/${id_usuario}`);
+  }
+
+  buscarArchivoPublico(req:any){
+    return this.request('GET', `${this.basepath}/archivo/get_archivos_amigos_by_name/${req.id_usuario}/${req.nombre}`);
+  }
 }

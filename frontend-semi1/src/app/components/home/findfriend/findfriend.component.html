@@ -7,6 +7,15 @@
     <div class="alert alert-danger" *ngIf="erroral" role="alert">
         {{message}}
     </div>
+    <div class="row">
+        <form [formGroup]="dataForm" >
+            <div class="input-group mb-3">            
+                <input type="text" class="form-control" placeholder="Nombre de Usuario" aria-label="Username" aria-describedby="basic-addon1" formControlName="nombre">
+                <button  *ngIf="!buscarstate" class="input-group-text" id="basic-addon1" class="btn btn-outline-success" (click)="buscar()" ><i class="fas fa-search"></i></button>
+                <button  *ngIf="buscarstate" class="input-group-text" id="basic-addon1" class="btn btn-outline-success"  (click)="clear()"><i class="far fa-window-close"></i></button>
+            </div>
+        </form>
+    </div>
     <div class="row row-cols-1 row-cols-md-4 g-4">
         <div class="col" *ngFor="let u of usuarios">
             <div class="card">

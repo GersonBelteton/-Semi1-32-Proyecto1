@@ -53,4 +53,8 @@ export class UsuarioService {
   agregarAmigo(usuario:any) {
     return this.request('POST', `${this.basepath}/usuario/agregar_amigo`, usuario);
   }
+
+  buscarUsuario(nombre:any){
+    return this.request('GET', `${this.basepath}/usuario/get_one_by_name/${nombre}`);
+  }
 }

@@ -9,6 +9,7 @@ import { FriendComponent } from './friend/friend.component';
 import { FindfriendComponent } from './findfriend/findfriend.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FilefriendComponent } from './filefriend/filefriend.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     FileComponent,
     FriendComponent,
-    FindfriendComponent
+    FindfriendComponent,
+    FilefriendComponent
   ],
   imports: [
     CommonModule,
