@@ -89,7 +89,20 @@ var UsuarioController = (function () {
                         error: err
                     });
                 } else {
-                    res.json(data[0]);
+                    if (data.length == 0) {
+                        res.json({
+                            estado: false,
+                            status: 404,
+                            mensaje: "Usuario no encontrado"
+                        });
+                    } else {
+                        res.json({ 
+                            estado: true, 
+                            data: data[0],
+                            mensaje: "Bienvenido"
+                        });
+                    }
+
                 }
             });
         };
