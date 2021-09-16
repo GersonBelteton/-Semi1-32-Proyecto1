@@ -21,10 +21,11 @@ export class FileComponent implements OnInit {
   alert: boolean = false;
   erroral: boolean = false;
   message: string = "";
-  statusEdit:boolean = false;
-  statusDelete:boolean = false;
-  statusInsert:boolean = true;
-  extension:string = "";
+  statusEdit: boolean = false;
+  statusDelete: boolean = false;
+  statusInsert: boolean = true;
+  extension: string = "";
+  currrentId: any;
 
   dataForm = this.fb.group({
     nombre: [''],
@@ -34,7 +35,7 @@ export class FileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private archivoService: ArchivoService,
-    private usuarioService:UsuarioService
+    private usuarioService: UsuarioService
   ) {
     this.dataForm = this.fb.group({
       nombre: [''],
@@ -73,12 +74,12 @@ export class FileComponent implements OnInit {
   guardar() {
     const data = this.dataForm.value;
     const newfile = {
-      nombre_archivo: data.nombre + this.extension,
+      nombre_archivo: data.nombre + "." + this.extension,
       tipo: data.publico == true ? 'publico' : 'privado',
       id_usuario: this.user.id_usuario,
       archivo: this.archivo
     }
-    if(this.usuarioService.encrypt(data.passc) == this.user.contrasena){
+    if (this.usuarioService.encrypt(data.passc) == this.user.contrasena) {
       this.archivoService.crearArchivo(newfile).then((res: any) => {
         if (res.estado) {
           this.alert = true;
@@ -108,7 +109,7 @@ export class FileComponent implements OnInit {
         this.erroral = false;
       }, 3000);
     }
-    
+
   }
 
   getArchivosPublic() {
@@ -124,9 +125,75 @@ export class FileComponent implements OnInit {
       })
   }
 
-  eliminar(id_archivo: any) {
-    this.archivoService.eliminarArchivo(id_archivo)
-      .then((res: any) => {
+  eliminaraction(id_archivo: any) {
+    this.statusDelete = true;
+    this.statusInsert = false;
+    this.statusEdit = false;
+    this.currrentId = id_archivo;
+  }
+
+  agregaraction(){
+    this.statusDelete = false;
+    this.statusEdit =false;
+    this.statusInsert = true;
+    this.currrentId = null;
+  }
+
+  editaraction(archivo:any){
+    this.statusDelete = false;
+    this.statusEdit = true;
+    this.statusInsert = false;
+    this.currrentId = archivo.id_archivo;
+    this.dataForm = this.fb.group({
+      nombre: [archivo.nombre_archivo.split('.')[0]],
+      publico: [archivo.tipo == "publico"?true:false],
+      passc: ['' ,Validators.required]
+    });
+    this.extension = archivo.nombre_archivo.split('.')[1];
+  }
+
+  eliminar() {
+    const data = this.dataForm.value;
+    if (this.usuarioService.encrypt(data.passc) == this.user.contrasena) {
+      this.archivoService.eliminarArchivo(this.currrentId)
+        .then((res: any) => {
+          if (res.estado) {
+            this.alert = true;
+            this.message = res.mensaje;
+            this.getArchivosPrivate();
+            this.getArchivosPublic();
+            this.agregaraction();
+            setTimeout(() => {
+              this.alert = false;
+            }, 3000);
+          } else {
+            this.erroral = true;
+            console.log(res);
+            this.message = res.error;
+            setTimeout(() => {
+              this.erroral = false;
+            }, 3000);
+          }
+        });
+    } else{
+      this.erroral = true;
+      this.message = "Contraseña incorrecta"
+      setTimeout(() => {
+        this.erroral = false;
+      }, 3000);
+    }
+
+  }
+
+  editar() {
+    const data = this.dataForm.value;
+    const newfile = {
+      nombre_archivo: data.nombre + "." + this.extension,
+      tipo: data.publico == true ? 'publico' : 'privado',      
+      id_archivo: this.currrentId
+    }
+    if (this.usuarioService.encrypt(data.passc) == this.user.contrasena) {
+      this.archivoService.editarArchivo(newfile).then((res: any) => {
         if (res.estado) {
           this.alert = true;
           this.message = res.mensaje;
@@ -134,16 +201,28 @@ export class FileComponent implements OnInit {
           this.getArchivosPublic();
           setTimeout(() => {
             this.alert = false;
+            this.dataForm = this.fb.group({
+              nombre: [''],
+              publico: [''],
+              passc: ['', Validators.required]
+            });
           }, 3000);
-        }else {
+        } else {
           this.erroral = true;
-          console.log(res);
-          this.message = res.error;
+          this.message = res.mensaje
           setTimeout(() => {
             this.erroral = false;
           }, 3000);
         }
       });
+    } else {
+      this.erroral = true;
+      this.message = "Contraseña incorrecta"
+      setTimeout(() => {
+        this.erroral = false;
+      }, 3000);
+    }
+
   }
 
 }

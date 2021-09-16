@@ -38,4 +38,8 @@ export class ArchivoService {
     return this.request('DELETE',`${this.basepath}/archivo/delete/${id_archivo}`);
   }
 
+  editarArchivo(archivo:any){
+    return this.request('PUT',`${this.basepath}/archivo/update_name_type`, archivo);
+  }
+
 }
