@@ -77,7 +77,7 @@ var ArchivoController = (function () {
 
 
         this.get_archivos_amigos = function (req, res) {
-            var query = "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario from Archivo " +
+            var query = "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario, u1.nombre_usuario from Archivo " +
                 "inner join Usuario as u1 " +
                 "on u1.id_usuario = Archivo.id_usuario " +
                 "inner join Amigo " +
@@ -87,7 +87,7 @@ var ArchivoController = (function () {
                 "where Archivo.tipo = 'publico' " +
                 "and u2.id_usuario =? ) " +
                 "UNION " +
-                "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario from Archivo " +
+                "(select nombre_archivo, ruta_archivo, tipo, u1.id_usuario, u1.nombre_usuario from Archivo " +
                 "inner join Usuario as u1 " +
                 "on u1.id_usuario = Archivo.id_usuario " +
                 "inner join Amigo " +
