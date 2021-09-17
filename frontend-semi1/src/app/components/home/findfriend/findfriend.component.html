@@ -24,7 +24,7 @@
                     <h6>{{u.nombre_usuario}}</h6>
                     <p>{{u.correo}}</p>
                     <p class="card-text" style="font-size:12px; text-overflow: ellipsis;">
-                        50 archivos públicos
+                        {{u.archivos_publicos}} archivos públicos
                     </p>
                     <div class="d-grid mx-auto">
                         <button (click)="agregarAmigo(u.id_usuario)" class="btn btn-outline-success">Agregar</button>

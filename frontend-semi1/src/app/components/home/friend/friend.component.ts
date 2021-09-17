@@ -33,7 +33,6 @@ export class FriendComponent implements OnInit {
   getUsuarios() {
     this.archivoService.getArchivosPublicos(this.user.id_usuario).then((res: any) => {
       this.usuarios = res;
-      console.log(res);
     });
   }
 

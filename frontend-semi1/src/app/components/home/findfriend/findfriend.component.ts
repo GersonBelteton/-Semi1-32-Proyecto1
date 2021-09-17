@@ -48,6 +48,7 @@ export class FindfriendComponent implements OnInit {
       if (res.estado) {
         this.alert = true;
         this.message = res.mensaje;
+        this.getUsuarios();
         setTimeout(() => {
           this.alert = false;
         }, 3000);
